@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07151a" />
+    <title>Weft HR</title>
+    <script>
+      (function () {
+        var themes = { 'midnight-harbour': 1, 'copper-ledger': 1, solarpunk: 1 }
+        var modes = {
+          'midnight-harbour': { light: 1, dark: 1 },
+          'copper-ledger': { light: 1, dark: 1 },
+          solarpunk: { sunlit: 1 }
+        }
+        var theme = 'midnight-harbour'
+        var mode = 'dark'
+        try {
+          var raw = JSON.parse(localStorage.getItem('spidernet.appearance') || 'null')
+          if (raw && themes[raw.theme]) theme = raw.theme
+          if (theme === 'solarpunk') mode = 'sunlit'
+          else if (raw && modes[theme][raw.mode]) mode = raw.mode
+          else if (raw && raw.modes && modes[theme][raw.modes[theme]]) mode = raw.modes[theme]
+        } catch (e) {}
+        var root = document.documentElement
+        root.dataset.theme = theme
+        root.dataset.mode = mode
+        root.style.colorScheme = mode === 'dark' ? 'dark' : 'light'
+        root.classList.toggle('dark', mode === 'dark')
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
